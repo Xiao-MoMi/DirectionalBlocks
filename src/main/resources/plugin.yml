@@ -1,0 +1,11 @@
+name: DirectionalBlock
+version: '${version}'
+main: net.momirealms.directionalblock.DirectionalBlock
+api-version: 1.16
+authors: [ XiaoMoMi ]
+depend:
+  - ItemsAdder
+commands:
+  directionalblocks:
+    aliases: dblocks
+    permission: directionalblocks.admin
