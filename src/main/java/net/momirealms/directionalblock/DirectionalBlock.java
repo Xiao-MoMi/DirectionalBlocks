@@ -153,7 +153,8 @@ public final class DirectionalBlock extends JavaPlugin {
             location.getBlock().setType(Material.valueOf(blockID));
         }
         else {
-            CustomBlock.place(blockID, location);
+            CustomBlock customBlock = CustomBlock.place(blockID, location);
+            customBlock.playPlaceSound();
         }
     }
 

@@ -97,7 +97,7 @@ public class Directions6 implements Directions {
             case EAST: {
                 if (pitch < 45 && pitch > -45) {
                     DirectionalBlock.placeBlock(getBlock(blockFace), location);
-                } else if(pitch >= 45){
+                } else if (pitch >= 45) {
                     DirectionalBlock.placeBlock(getUp(), location);
                 } else {
                     DirectionalBlock.placeBlock(getDown(), location);

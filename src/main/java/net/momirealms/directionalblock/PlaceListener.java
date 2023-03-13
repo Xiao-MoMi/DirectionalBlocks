@@ -1,5 +1,6 @@
 package net.momirealms.directionalblock;
 
+import dev.lone.itemsadder.api.CustomBlock;
 import dev.lone.itemsadder.api.Events.CustomBlockPlaceEvent;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
