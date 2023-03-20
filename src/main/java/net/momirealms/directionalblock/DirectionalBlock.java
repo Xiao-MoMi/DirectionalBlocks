@@ -8,9 +8,11 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public final class DirectionalBlock extends JavaPlugin {
 
@@ -18,9 +20,11 @@ public final class DirectionalBlock extends JavaPlugin {
     private PlaceListener listener;
 
     private final HashMap<String, Directions> blocks;
+    private final HashMap<String, String> directionToOrigin;
 
     public DirectionalBlock() {
         this.blocks = new HashMap<>();
+        this.directionToOrigin = new HashMap<>();
     }
 
     @Override
@@ -54,6 +58,7 @@ public final class DirectionalBlock extends JavaPlugin {
     public void unload() {
         HandlerList.unregisterAll(this.listener);
         blocks.clear();
+        directionToOrigin.clear();
     }
 
     public void reload() {
@@ -88,6 +93,9 @@ public final class DirectionalBlock extends JavaPlugin {
                         config.getString(key + ".z")
                 );
                 blocks.put(key, directions);
+                putIfNotTheSame(config.getString(key + ".x"), key);
+                putIfNotTheSame(config.getString(key + ".y"), key);
+                putIfNotTheSame(config.getString(key + ".z"), key);
             }
         }
     }
@@ -111,6 +119,10 @@ public final class DirectionalBlock extends JavaPlugin {
                         config.getString(key + ".west")
                 );
                 blocks.put(key, directions);
+                putIfNotTheSame(config.getString(key + ".north"), key);
+                putIfNotTheSame(config.getString(key + ".east"), key);
+                putIfNotTheSame(config.getString(key + ".west"), key);
+                putIfNotTheSame(config.getString(key + ".south"), key);
             }
         }
     }
@@ -136,6 +148,12 @@ public final class DirectionalBlock extends JavaPlugin {
                         config.getString(key + ".down")
                 );
                 blocks.put(key, directions);
+                putIfNotTheSame(config.getString(key + ".north"), key);
+                putIfNotTheSame(config.getString(key + ".south"), key);
+                putIfNotTheSame(config.getString(key + ".east"), key);
+                putIfNotTheSame(config.getString(key + ".west"), key);
+                putIfNotTheSame(config.getString(key + ".up"), key);
+                putIfNotTheSame(config.getString(key + ".down"), key);
             }
         }
     }
@@ -172,5 +190,15 @@ public final class DirectionalBlock extends JavaPlugin {
         File file = new File(this.getDataFolder(), configName);
         if (!file.exists()) this.saveResource(configName, false);
         return YamlConfiguration.loadConfiguration(file);
+    }
+
+    @Nullable
+    public String getOriginBlockId(String var) {
+        return directionToOrigin.get(var);
+    }
+
+    public void putIfNotTheSame(String after, String origin) {
+        if (after == null || after.equals(origin) || directionToOrigin.containsKey(after)) return;
+        directionToOrigin.put(after, origin);
     }
 }
