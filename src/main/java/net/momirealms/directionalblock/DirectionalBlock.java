@@ -171,8 +171,7 @@ public final class DirectionalBlock extends JavaPlugin {
             location.getBlock().setType(Material.valueOf(blockID));
         }
         else {
-            CustomBlock customBlock = CustomBlock.place(blockID, location);
-            customBlock.playPlaceSound();
+            CustomBlock.place(blockID, location);
         }
     }
 
@@ -198,7 +197,7 @@ public final class DirectionalBlock extends JavaPlugin {
     }
 
     public void putIfNotTheSame(String after, String origin) {
-        if (after == null || after.equals(origin) || directionToOrigin.containsKey(after)) return;
+        if (after == null || after.equals(origin) || directionToOrigin.containsKey(after) || directionToOrigin.containsKey(origin)) return;
         directionToOrigin.put(after, origin);
     }
 }
